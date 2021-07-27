@@ -73,7 +73,11 @@ is_existing_cloudfront_dist() {
 
 get_cloudfront_dist_alias() {
   local CLOUDFRONT_DIST_ID=$1
-  aws cloudfront get-distribution --id E28UZ0N0QZDVSL --profile commit-bucket-deploy | jq -r '.Distribution.DistributionConfig.Aliases.Items[0]'
+  local CLOUDFRONT_DIST_ALIAS
+  aws cloudfront get-distribution --id "$CLOUDFRONT_DIST_ID" --profile commit-bucket-deploy &> test.txt
+  cat test.txt
+  CLOUDFRONT_DIST_ALIAS=$(jq -r '.Distribution.DistributionConfig.Aliases.Items[0]' text.txt)
+  echo "$CLOUDFRONT_DIST_ALIAS"
 }
 
 upload_folder() {
@@ -81,6 +85,11 @@ upload_folder() {
   local SRC_DIR=$2
   local DEST_DIR=$3
   aws s3 cp "$SRC_DIR" "s3://$BUCKET_NAME/$DEST_DIR" --recursive --profile commit-bucket-deploy
+}
+
+invalidate_cloudfront_dist() {
+  local CLOUDFRONT_DIST_ID=$1
+  aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DIST_ID" --paths '/*' --profile commit-bucket-deploy
 }
 
 tear_down_aws_profile() {
