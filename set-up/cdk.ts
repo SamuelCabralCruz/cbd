@@ -86,7 +86,7 @@ export class MultipleStaticWebsitesConstruct extends cdk.Construct {
           const redirectedDomain = bucketUrl.replace('http://', '');
           const request = event.Records[0].cf.request;
           const host = request.headers.host[0].value.replace(/^www\\./, "");
-          const subdomainPattern = new RegExp(\`^[a-z0-9]+\\\\.\${originalDomain
+          const subdomainPattern = new RegExp(\`^[a-z0-9\\-]+\\\\.\${originalDomain
             .replace('*\\.', '')
             .replace(/[.*+?^\${}()|[\\]\\\\]/g, '\\\\$&')}$\`);
           const dir = subdomainPattern.test(host) ? host.split(".")[0] : undefined;
