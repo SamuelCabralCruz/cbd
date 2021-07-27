@@ -2,6 +2,7 @@
 
 DIR="$(dirname "$0")"
 . "$DIR/shared/app.sh"
+. "$DIR/shared/aws.sh"
 . "$DIR/shared/github.sh"
 . "$DIR/shared/validate.sh"
 
@@ -13,7 +14,7 @@ CLOUDFRONT_DIST_ID=$3
 STATIC_BUILD_FOLDER=$4
 
 BRANCH_NAME=$(jq -r '.pull_request.head.ref' "$GITHUB_EVENT_PATH" | tr  '/' '-')
-PULL_REQUEST_NUMBER=$(jq -r '.number')
+PULL_REQUEST_NUMBER=$(jq -r '.number' "$GITHUB_EVENT_PATH")
 CREATE_COMMENT_URL=$(jq -r '.pull_request.comments_url' "$GITHUB_EVENT_PATH")
 EVENT_TYPE=$(jq -r '.action' "$GITHUB_EVENT_PATH")
 
@@ -26,14 +27,13 @@ validate_cloudfront_dist_id "$CLOUDFRONT_DIST_ID"
 validate_static_build_folder "$STATIC_BUILD_FOLDER"
 
 if [[ $EVENT_TYPE =~ ^(opened|reopened|synchronize)$ ]]; then
-  FOLDER_NAME="${PROJECT_NAME}-${BRANCH_NAME}-${PULL_REQUEST_NUMBER}"
-  # upload build folder to s3 under proper folder
-
-  # invalidate cloudfront distribution
+  FOLDER_NAME="${PROJECT_NAME}-${BRANCH_NAME,,}-${PULL_REQUEST_NUMBER}"
+  upload_folder "$BUCKET_NAME" "$STATIC_BUILD_FOLDER" "$FOLDER_NAME"
+  invalidate_cloudfront_dist "$CLOUDFRONT_DIST_ID"
   if [[ $EVENT_TYPE == 'opened' ]]; then
     CLOUDFRONT_DIST_ALIAS=$(get_cloudfront_dist_alias "$CLOUDFRONT_DIST_ID")
     URL="https://${CLOUDFRONT_DIST_ALIAS//\*/$FOLDER_NAME}"
-  #   - create pull request comment
+    create_pull_request_comment "$GITHUB_TOKEN" "$CREATE_COMMENT_URL" "$URL" "create_pull_request_comment.txt"
   fi
 else
   echo 'This action is designed to be run with pull_request event types: opened, reopened, and synchronize. Quitting.'
