@@ -83,6 +83,11 @@ upload_folder() {
   aws s3 cp "$SRC_DIR" "s3://$BUCKET_NAME/$DEST_DIR" --recursive --profile commit-bucket-deploy
 }
 
+invalidate_cloudfront_dist() {
+  local CLOUDFRONT_DIST_ID=$1
+  aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DIST_ID" --paths '/*' --profile commit-bucket-deploy
+}
+
 tear_down_aws_profile() {
   aws configure --profile commit-bucket-deploy <<-EOF > /dev/null 2>&1
 null
