@@ -1,0 +1,6 @@
+name: 'CBD'
+description: 'GitHub Action to deploy multiple versions of a static website on pull requests.'
+author: 'Samuel Cabral Cruz'
+branding:
+  icon: upload-cloud
+  color: green
