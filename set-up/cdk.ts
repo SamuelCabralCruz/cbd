@@ -150,10 +150,6 @@ export class MultipleStaticWebsitesConstruct extends cdk.Construct {
                         ],
                         s3OriginSource: {
                             s3BucketSource: bucket,
-                            originAccessIdentity: new cf.OriginAccessIdentity(
-                                scope,
-                                `${constructId}-origin-access-identity`,
-                            ),
                         },
                     },
                 ],
