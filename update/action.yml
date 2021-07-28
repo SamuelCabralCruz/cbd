@@ -1,0 +1,17 @@
+name: 'CBD - UPDATE'
+description: 'Clean up S3 bucket when pull requests are closed.'
+inputs:
+  project-name:
+    description:
+      "Lower kebab case string (lower-kebab-case-string) allowing to store action's data from multiple
+      projects/repositories without collisions in the same bucket."
+    required: true
+  bucket-name:
+    description: 'S3 bucket name to be used to host static websites.'
+    required: true
+runs:
+  using: 'docker'
+  image: '../update.Dockerfile'
+  args:
+    - ${{ inputs.project-name }}
+    - ${{ inputs.bucket-name }}

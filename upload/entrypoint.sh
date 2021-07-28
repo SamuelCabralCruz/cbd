@@ -27,7 +27,7 @@ validate_cloudfront_dist_id "$CLOUDFRONT_DIST_ID"
 validate_static_build_folder "$STATIC_BUILD_FOLDER"
 
 if [[ $EVENT_TYPE =~ ^(opened|reopened|synchronize)$ ]]; then
-  FOLDER_NAME="${PROJECT_NAME}-${BRANCH_NAME,,}-${PULL_REQUEST_NUMBER}"
+  FOLDER_NAME=$(compute_folder_name "$PROJECT_NAME" "$BRANCH_NAME" "$PULL_REQUEST_NUMBER")
   upload_folder "$BUCKET_NAME" "$STATIC_BUILD_FOLDER" "$FOLDER_NAME"
   invalidate_cloudfront_dist "$CLOUDFRONT_DIST_ID"
   if [[ $EVENT_TYPE == 'opened' ]]; then
