@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BRANCH_NAME="test-open-6"
+BRANCH_NAME="test"
 git stash save
 git checkout main
 git branch -D $BRANCH_NAME

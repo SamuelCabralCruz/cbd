@@ -85,6 +85,12 @@ upload_folder() {
   aws s3 cp "$SRC_DIR" "s3://$BUCKET_NAME/$DEST_DIR" --recursive --profile commit-bucket-deploy
 }
 
+remove_folder() {
+  local BUCKET_NAME=$1
+  local DIR=$2
+  aws s3 rm "s3://$BUCKET_NAME/$DIR" --recursive --profile commit-bucket-deploy
+}
+
 invalidate_cloudfront_dist() {
   local CLOUDFRONT_DIST_ID=$1
   aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DIST_ID" --paths '/*' --profile commit-bucket-deploy
