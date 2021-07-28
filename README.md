@@ -27,3 +27,7 @@
 - Before going any further, you must first have the appropriate infrastructure in place in your AWS account.
 - For the moment, there is "out-of-the-box" way to proceed.
 - Simply follow the instructions described [here](./set-up/README.md)
+- This action is actually divided in three different parts made to match your project lifecycle:
+  - [Upload](./upload/README.md)
+  - [Update](./update/README.md)
+  - [Deploy](./deploy/README.md)

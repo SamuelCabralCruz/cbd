@@ -1,7 +1,6 @@
 # CBD (UPLOAD)
 
-- This action leverages the power of S3 and CloudFront to host multiple versions of the same website concurrently 
-  with the same infrastructure components.
+Upload static build files on pull request event.
 
 ## Sample Usage
 
@@ -38,4 +37,12 @@ on: [pull_request]
 
 ### Inputs
 
-- TODO
+- project-name
+  - Lower kebab case string (lower-kebab-case-string) allowing to store action's data from multiple
+    projects/repositories without collisions in the same bucket.
+- bucket-name
+  - S3 bucket name to be used to host static websites.
+- cloudfront-dist-id
+  - CloudFront distribution id fronting the s3 bucket.
+- static-build-folder
+  - Relative path from root of the repository to the folder containing all the static files to be deployed.
