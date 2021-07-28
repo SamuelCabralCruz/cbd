@@ -1,0 +1,29 @@
+name: 'CBD - DEPLOY'
+description: 'Simple deploy your static website.'
+inputs:
+  bucket-name:
+    description: 'S3 bucket name to be used to host static websites.'
+    required: true
+  cloudfront-dist-id:
+    description: 'CloudFront distribution id fronting the s3 bucket.'
+    required: true
+  source-dir:
+    description: 'Relative path from root of the repository to the folder containing all the static files to be deployed.'
+    required: true
+  dest-dir:
+    description: 'Relative path from root of the bucket to deploy the static files.'
+    required: false
+    default: ''
+  perform-clean-up:
+    description: 'Remove existing content in the destination directory before uploading source directory files.'
+    required: false
+    default: 'true'
+runs:
+  using: 'docker'
+  image: '../deploy.Dockerfile'
+  args:
+    - ${{ inputs.bucket-name }}
+    - ${{ inputs.cloudfront-dist-id }}
+    - ${{ inputs.source-dir }}
+    - ${{ inputs.dest-dir }}
+    - ${{ inputs.perform-clean-up }}
