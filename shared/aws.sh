@@ -78,14 +78,14 @@ get_cloudfront_dist_alias() {
   echo "$CLOUDFRONT_DIST_ALIAS"
 }
 
-upload_folder() {
+upload_directory() {
   local BUCKET_NAME=$1
   local SRC_DIR=$2
   local DEST_DIR=$3
   aws s3 cp "$SRC_DIR" "s3://$BUCKET_NAME/$DEST_DIR" --recursive --profile commit-bucket-deploy
 }
 
-remove_folder() {
+remove_directory() {
   local BUCKET_NAME=$1
   local DIR=$2
   aws s3 rm "s3://$BUCKET_NAME/$DIR" --recursive --profile commit-bucket-deploy

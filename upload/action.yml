@@ -12,8 +12,8 @@ inputs:
   cloudfront-dist-id:
     description: 'CloudFront distribution id fronting the s3 bucket.'
     required: true
-  static-build-folder:
-    description: 'Relative path from root of the repository to the folder containing all the static files to be deployed.'
+  source-dir:
+    description: 'Relative path from root of the repository to the directory containing all the static files to be deployed.'
     required: true
 runs:
   using: 'docker'
@@ -22,4 +22,4 @@ runs:
     - ${{ inputs.project-name }}
     - ${{ inputs.bucket-name }}
     - ${{ inputs.cloudfront-dist-id }}
-    - ${{ inputs.static-build-folder }}
+    - ${{ inputs.source-dir }}

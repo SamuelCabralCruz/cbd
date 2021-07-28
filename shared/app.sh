@@ -1,6 +1,6 @@
 #!/bin/bash
 
-compute_folder_name() {
+compute_dest_directory() {
   local PROJECT_NAME=$1
   local BRANCH_NAME=$2
   local PULL_REQUEST_NUMBER=$3

@@ -14,7 +14,7 @@ on: [pull_request]
     project-name: <project-name> 
     bucket-name: <bucket-name> 
     cloudfront-dist-id: <cloudfront-dist-id>
-    static-build-folder: <static-build-folder>
+    source-dir: <source-dir>
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -44,5 +44,5 @@ on: [pull_request]
   - S3 bucket name to be used to host static websites.
 - cloudfront-dist-id
   - CloudFront distribution id fronting the s3 bucket.
-- static-build-folder
-  - Relative path from root of the repository to the folder containing all the static files to be deployed.
+- source-dir 
+  - Relative path from root of the repository to the directory containing all the static files to be deployed.

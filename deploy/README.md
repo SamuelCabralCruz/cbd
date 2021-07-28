@@ -42,7 +42,7 @@ jobs:
 - cloudfront-dist-id
   - CloudFront distribution id fronting the s3 bucket.
 - source-dir
-  - Relative path from root of the repository to the folder containing all the static files to be deployed.
+  - Relative path from root of the repository to the directory containing all the static files to be deployed.
 - dest-dir (optional - default: '')
   - Relative path from root of the bucket to deploy the static files.
 - perform-clean-up (optional - default: 'true')

@@ -36,14 +36,14 @@ validate_project_name() {
   fi
 }
 
-validate_static_build_folder() {
-  local STATIC_BUILD_FOLDER=$1
-  if [[ -z "$STATIC_BUILD_FOLDER" ]]; then
-    echo "static-build-folder input is required. Quitting."
+validate_source_directory() {
+  local SOURCE_DIR=$1
+  if [[ -z "$SOURCE_DIR" ]]; then
+    echo "source-dir input is required. Quitting."
     exit 1
   fi
-  if [[ ! -d "$STATIC_BUILD_FOLDER" ]]; then
-    echo "static-build-folder input is invalid. Provided path does not exist. Quitting."
+  if [[ ! -d "$SOURCE_DIR" ]]; then
+    echo "source-dir input is invalid. Provided path does not exist. Quitting."
     exit 1
   fi
 }

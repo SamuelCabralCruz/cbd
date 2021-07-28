@@ -1,6 +1,6 @@
 # Set Up Infrastructure
 
-- In this folder, you will find everything you need in order to set up the infrastructure.
+- In this directory, you will find everything you need in order to set up the infrastructure.
 - For the moment, I opted for a step-by-step walkthrough explaining how to do it via the 
   AWS's Management console.
 - I also provided a simplified version of the CDK code I am using.

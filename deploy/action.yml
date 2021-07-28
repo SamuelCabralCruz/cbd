@@ -8,7 +8,7 @@ inputs:
     description: 'CloudFront distribution id fronting the s3 bucket.'
     required: true
   source-dir:
-    description: 'Relative path from root of the repository to the folder containing all the static files to be deployed.'
+    description: 'Relative path from root of the repository to the directory containing all the static files to be deployed.'
     required: true
   dest-dir:
     description: 'Relative path from root of the bucket to deploy the static files.'

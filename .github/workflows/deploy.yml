@@ -13,7 +13,7 @@ jobs:
         with:
           bucket-name: cbd-deploy-action
           cloudfront-dist-id: EJ0YVJNRF5OMI
-          source-dir: ./static-build-folder
+          source-dir: ./build-example
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

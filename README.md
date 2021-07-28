@@ -10,7 +10,7 @@
 ## Important Facts
 
 - This action will only simplify the integration between your repository and your infrastructure.
-  - Compute standardized folder name
+  - Compute standardized directory name
   - Commenting pull requests with the proper url to the deployed website
   - Upload build to specified S3 bucket
   - Invalidate Cloudfront distribution after deployment
@@ -20,7 +20,7 @@
   - S3 Bucket to host the different website's builds
   - Cloudfront CDN to distribute the static websites with standardized urls
     - Wildcard certificate on a specific subdomain to easily request our Cloudfront distribution
-    - Lambda edge function to route to the proper folder in the bucket
+    - Lambda edge function to route to the proper directory in the bucket
 
 ## Sample Usage
 
