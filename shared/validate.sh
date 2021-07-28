@@ -8,6 +8,14 @@ validate_pull_request_context() {
   fi
 }
 
+validate_push_context() {
+  local GITHUB_EVENT_NAME=$1
+  if [[ $GITHUB_EVENT_NAME != 'push' ]]; then
+    echo "This action is designed to be run in push context. Quitting."
+    exit 1
+  fi
+}
+
 validate_github_token() {
   local GITHUB_TOKEN=$1
   if [[ -z "$GITHUB_TOKEN" ]]; then
@@ -37,5 +45,13 @@ validate_static_build_folder() {
   if [[ ! -d "$STATIC_BUILD_FOLDER" ]]; then
     echo "static-build-folder input is invalid. Provided path does not exist. Quitting."
     exit 1
+  fi
+}
+
+validate_boolean() {
+  local NAME=$1
+  local VALUE=$2
+  if [[ ! $VALUE =~ ^(true|false)$ ]]; then
+   echo "$NAME input is invalid. Accepted values are: true or false. Quitting."
   fi
 }
