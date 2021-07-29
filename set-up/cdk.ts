@@ -82,10 +82,11 @@ export class MultipleStaticWebsitesConstruct extends cdk.Construct {
         exports.handler = (event, context, callback) => {
           const originalDomain = "${domainName}";
           const bucketUrl = "${bucket.bucketWebsiteUrl}";
-
-          const redirectedDomain = bucketUrl.replace('http://', '');
+          
           const request = event.Records[0].cf.request;
           const host = request.headers.host[0].value.replace(/^www\\./, "");
+
+          const redirectedDomain = bucketUrl.replace('http://', '');
           const subdomainPattern = new RegExp(\`^[a-z0-9\\-]+\\\\.\${originalDomain
             .replace('*\\.', '')
             .replace(/[.*+?^\${}()|[\\]\\\\]/g, '\\\\$&')}$\`);
@@ -106,8 +107,8 @@ export class MultipleStaticWebsitesConstruct extends cdk.Construct {
               }
             }
           };
-
           request.headers["host"] = [{ key: "host", value: redirectedDomain }];
+          
           callback(null, request);
         };`),
             timeout: cdk.Duration.seconds(10),
