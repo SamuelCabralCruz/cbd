@@ -31,7 +31,7 @@ if [[ $EVENT_TYPE =~ ^(opened|reopened|synchronize)$ ]]; then
   upload_directory "$BUCKET_NAME" "$SOURCE_DIR" "$DEST_DIR"
   invalidate_cloudfront_dist "$CLOUDFRONT_DIST_ID"
   IS_ALREADY_COMMENTED=$(is_already_commented "$GITHUB_TOKEN" "$COMMENTS_URL" "DEMO URL: ")
-  if [[ $IS_ALREADY_COMMENTED == 'true' ]]; then
+  if [[ $IS_ALREADY_COMMENTED == 'false' ]]; then
     CLOUDFRONT_DIST_ALIAS=$(get_cloudfront_dist_alias "$CLOUDFRONT_DIST_ID")
     URL="https://${CLOUDFRONT_DIST_ALIAS//\*/$DEST_DIR}"
     create_pull_request_comment "$GITHUB_TOKEN" "$COMMENTS_URL" "DEMO URL: $URL" "create_pull_request_comment.txt"
