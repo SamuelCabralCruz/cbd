@@ -30,11 +30,11 @@ if [[ $EVENT_TYPE =~ ^(opened|reopened|synchronize)$ ]]; then
   DEST_DIR=$(compute_dest_directory "$PROJECT_NAME" "$BRANCH_NAME" "$PULL_REQUEST_NUMBER")
   upload_directory "$BUCKET_NAME" "$SOURCE_DIR" "$DEST_DIR"
   invalidate_cloudfront_dist "$CLOUDFRONT_DIST_ID"
-  IS_ALREADY_COMMENTED=$(is_already_commented "$GITHUB_TOKEN" "$COMMENTS_URL" "DEMO URL: ")
+  CLOUDFRONT_DIST_ALIAS=$(get_cloudfront_dist_alias "$CLOUDFRONT_DIST_ID")
+  DEMO_URL="DEMO URL: https://${CLOUDFRONT_DIST_ALIAS//\*/$DEST_DIR}"
+  IS_ALREADY_COMMENTED=$(is_already_commented "$GITHUB_TOKEN" "$COMMENTS_URL" "$DEMO_URL")
   if [[ $IS_ALREADY_COMMENTED == 'false' ]]; then
-    CLOUDFRONT_DIST_ALIAS=$(get_cloudfront_dist_alias "$CLOUDFRONT_DIST_ID")
-    URL="https://${CLOUDFRONT_DIST_ALIAS//\*/$DEST_DIR}"
-    create_pull_request_comment "$GITHUB_TOKEN" "$COMMENTS_URL" "DEMO URL: $URL" "create_pull_request_comment.txt"
+    create_pull_request_comment "$GITHUB_TOKEN" "$COMMENTS_URL" "$DEMO_URL" "create_pull_request_comment.txt"
   fi
 else
   echo 'This action is designed to be run with pull_request event types: opened, reopened, and synchronize. Quitting.'
