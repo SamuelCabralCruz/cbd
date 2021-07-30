@@ -15,7 +15,7 @@ SOURCE_DIR=$4
 
 BRANCH_NAME=$(jq -r '.pull_request.head.ref' "$GITHUB_EVENT_PATH" | tr  '/' '-')
 PULL_REQUEST_NUMBER=$(jq -r '.number' "$GITHUB_EVENT_PATH")
-CREATE_COMMENT_URL=$(jq -r '.pull_request.comments_url' "$GITHUB_EVENT_PATH")
+COMMENTS_URL=$(jq -r '.pull_request.comments_url' "$GITHUB_EVENT_PATH")
 EVENT_TYPE=$(jq -r '.action' "$GITHUB_EVENT_PATH")
 
 set_up_aws_profile "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" "$AWS_REGION"
@@ -30,10 +30,11 @@ if [[ $EVENT_TYPE =~ ^(opened|reopened|synchronize)$ ]]; then
   DEST_DIR=$(compute_dest_directory "$PROJECT_NAME" "$BRANCH_NAME" "$PULL_REQUEST_NUMBER")
   upload_directory "$BUCKET_NAME" "$SOURCE_DIR" "$DEST_DIR"
   invalidate_cloudfront_dist "$CLOUDFRONT_DIST_ID"
-  if [[ $EVENT_TYPE == 'opened' ]]; then
+  IS_ALREADY_COMMENTED=$(is_already_commented "$GITHUB_TOKEN" "$COMMENTS_URL" "DEMO URL: ")
+  if [[ $IS_ALREADY_COMMENTED == 'false' ]]; then
     CLOUDFRONT_DIST_ALIAS=$(get_cloudfront_dist_alias "$CLOUDFRONT_DIST_ID")
     URL="https://${CLOUDFRONT_DIST_ALIAS//\*/$DEST_DIR}"
-    create_pull_request_comment "$GITHUB_TOKEN" "$CREATE_COMMENT_URL" "$URL" "create_pull_request_comment.txt"
+    create_pull_request_comment "$GITHUB_TOKEN" "$COMMENTS_URL" "DEMO URL: $URL" "create_pull_request_comment.txt"
   fi
 else
   echo 'This action is designed to be run with pull_request event types: opened, reopened, and synchronize. Quitting.'
