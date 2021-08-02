@@ -13,7 +13,7 @@ BUCKET_NAME=$2
 CLOUDFRONT_DIST_ID=$3
 SOURCE_DIR=$4
 
-BRANCH_NAME=$(jq -r '.pull_request.head.ref' "$GITHUB_EVENT_PATH" | tr  '/' '-')
+BRANCH_NAME=$(jq -r '.pull_request.head.ref' "$GITHUB_EVENT_PATH")
 PULL_REQUEST_NUMBER=$(jq -r '.number' "$GITHUB_EVENT_PATH")
 COMMENTS_URL=$(jq -r '.pull_request.comments_url' "$GITHUB_EVENT_PATH")
 EVENT_TYPE=$(jq -r '.action' "$GITHUB_EVENT_PATH")

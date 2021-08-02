@@ -11,7 +11,7 @@ validate_pull_request_context "$GITHUB_EVENT_NAME"
 PROJECT_NAME=$1
 BUCKET_NAME=$2
 
-BRANCH_NAME=$(jq -r '.pull_request.head.ref' "$GITHUB_EVENT_PATH" | tr  '/' '-')
+BRANCH_NAME=$(jq -r '.pull_request.head.ref' "$GITHUB_EVENT_PATH")
 PULL_REQUEST_NUMBER=$(jq -r '.number' "$GITHUB_EVENT_PATH")
 EVENT_TYPE=$(jq -r '.action' "$GITHUB_EVENT_PATH")
 
