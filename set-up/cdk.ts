@@ -61,6 +61,7 @@ export class MultipleStaticWebsitesConstruct extends cdk.Construct {
         const bucket = new s3.Bucket(scope, `${constructId}-bucket`, {
             bucketName,
             websiteIndexDocument: 'index.html',
+            websiteErrorDocument: 'index.html'
         })
         const bucketPermission = new iam.PolicyStatement({
             principals: [new iam.AnyPrincipal()],
